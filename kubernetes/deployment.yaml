@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: z-push
+spec:
+  selector:
+    matchLabels:
+      app: z-push
+  template:
+    metadata:
+      labels:
+        app: z-push
+    spec:
+      initContainers:
+        - name: cp
+          image: ghcr.io/ngrewe/z-push:latest
+          command: ["bash"]
+          args: ["-c", "cp -r /usr/share/z-push/* /data"]
+          volumeMounts:
+            - mountPath: /data
+              name: z-push-data
+      containers:
+      - name: z-push
+        image: ghcr.io/ngrewe/z-push:latest
+        resources:
+          limits:
+            memory: "132Mi"
+            cpu: "500m"
+        envFrom:
+          - configMapRef:
+              name: z-push
+        securityContext:
+          runAsNonRoot: true
+          allowPrivilegeEscalation: false
+      - name: caddy
+        image: caddy:2.6-alpine
+        resources:
+          limits:
+            memory: "64Mi"
+            cpu: "125m"
+        ports:
+          - containerPort: 8080
+            name: http
+        volumeMounts:
+          - mountPath: /etc/caddy/Caddyfile
+            name: caddy-config
+            subPath: Caddyfile
+          - mountPath: /usr/share/z-push
+            name: z-push-data
+            readOnly: true
+      volumes:
+        - name: z-push-lib
+          emptyDir: {}
+        - name: z-push-logs
+          emptyDir: {}
+        - name: caddy-config
+          configMap:
+            name: caddy
+        - name: z-push-data
+          emptyDir: {}
+      securityContext:
+        fsGroup: 999

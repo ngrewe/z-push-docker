@@ -1,0 +1,36 @@
+{
+	auto_https off
+	servers :8080 {
+		metrics
+		protocols h1 h2c
+	}
+}
+
+http://*:8080 {
+	log {
+		output stdout
+	}
+
+	request_body {
+		max_size 50MB
+	}
+
+	@autodiscover path_regexp autodiscover ^/[aA]uto[Dd]iscover/[Aa]uto[Dd]iscover.xml$
+
+	handle @autodiscover {
+		root * /usr/share/z-push
+		php_fastcgi localhost:9000 {
+			index autodiscover/autodiscover.php
+			capture_stderr
+		}
+	}
+	handle /Microsoft-Server-ActiveSync {
+		root * /usr/share/z-push
+		php_fastcgi /Microsoft-Server-ActiveSync localhost:9000 {
+			capture_stderr
+		}
+	}
+	handle {
+		respond 404
+	}
+}

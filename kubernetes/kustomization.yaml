@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: z-push
+
+resources:
+  - memcached.yaml
+  - deployment.yaml
+  - service.yaml
+
+replicas:
+  - name: z-push
+    count: 1
+
+configMapGenerator:
+  - name: z-push
+    envs:
+      - z-push.env
+  - name: caddy
+    files:
+      - Caddyfile
+
+images:
+  - name: ghcr.io/ngrewe/z-push
+    newTag: v0.0.7
