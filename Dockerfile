@@ -1,3 +1,7 @@
+# SPDX-SnippetBegin
+# SPDX-License-Identifier: MIT
+# SPDX-SnippetCopyrightText: 2023 Niels Grewe
+# SPDX-SnippetEnd
 FROM debian:11-slim
 LABEL org.opencontainers.image.source=https://github.com/ngrewe/z-push-pg
 LABEL org.opencontainers.image.licenses=AGPL-3.0-only
