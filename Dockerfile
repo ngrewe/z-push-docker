@@ -1,4 +1,5 @@
 FROM debian:11-slim
+LABEL org.opencontainers.image.source=https://github.com/ngrewe/z-push-pg
 ARG STAGE="final"
 RUN apt-get update \
 	&& apt-get -qqy --no-install-recommends install apt-transport-https curl ca-certificates gpg tini
