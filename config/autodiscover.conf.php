@@ -109,3 +109,5 @@ define('LOG_SYSLOG_FACILITY', LOG_LOCAL0);
  */
 // the backend data provider
 define('BACKEND_PROVIDER', getenv('ZPUSH_BACKEND_PROVIDER' ?: ''));
+
+define('LOGAUTHFAIL', getenv('ZPUSH_LOGAUTHFAIL') ?  filter_var(getenv('ZPUSH_LOGAUTHFAIL'), FILTER_VALIDATE_BOOLEAN) : false);
