@@ -26,7 +26,7 @@ RUN addgroup --system --gid 999 z-push \
 	&& sed -i s:/run/php:/run/z-push:g /etc/php/7.4/fpm/php-fpm.conf
 COPY config/ /etc/z-push
 COPY php-fpm/z-push.conf /etc/php/7.4/fpm/pool.d/z-push.conf
-USER z-push
+USER 999
 EXPOSE 9000
 VOLUME ["/var/lib/z-push", "/var/log/z-push"]
 ENTRYPOINT ["/usr/bin/tini", "/usr/sbin/php-fpm7.4", "--", "-F"]
