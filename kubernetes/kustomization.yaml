@@ -22,4 +22,4 @@ configMapGenerator:
 
 images:
   - name: ghcr.io/ngrewe/z-push
-    newTag: v0.0.7
+    newTag: latest
