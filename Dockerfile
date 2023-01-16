@@ -19,6 +19,7 @@ RUN curl -sLo- https://download.kopano.io/zhub/z-push:/${STAGE}/Debian_11/Releas
 	z-push-ipc-sharedmemory \
 	php-fpm \
 	php-pgsql \ 
+	php-mbstring \
 	&& rm /etc/php/7.4/fpm/pool.d/www.conf
 RUN addgroup --system --gid 999 z-push \
 	&& adduser --system --home /var/lib/z-push --disabled-login --ingroup z-push --uid 999 z-push \
